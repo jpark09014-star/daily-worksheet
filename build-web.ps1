@@ -2,7 +2,7 @@
 $ErrorActionPreference = 'Stop'
 $root = $PSScriptRoot
 $src  = Get-Content -Raw -Encoding UTF8 "$root\src\app.html"
-$gen  = Get-Content -Raw -Encoding UTF8 "$root\src\gen.js"
+$gen  = (Get-Content -Raw -Encoding UTF8 "$root\src\pic2.js") + "`n" + (Get-Content -Raw -Encoding UTF8 "$root\src\pic.js") + "`n" + (Get-Content -Raw -Encoding UTF8 "$root\src\gen.js")
 $all = $src + $gen
 $chars = -join (($all.ToCharArray() | Where-Object { [int]$_ -ge 32 } | Sort-Object -Unique))
 $ascii = -join (32..126 | ForEach-Object { [char]$_ })

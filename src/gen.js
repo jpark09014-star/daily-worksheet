@@ -47,7 +47,7 @@
   function fixJ(s) {
     s = s.replace(/([0-9가-힣])(을\(를\)|이\(가\)|은\(는\)|과\(와\))/g, (m, ch, p) => { const b = bat(ch); if (b < 0) return m; return ch + PAIRS[p][b ? 0 : 1]; });
     s = s.replace(/<i>\d*(\d)<\/i><i>\d+<\/i><\/span>(을\(를\)|이\(가\)|은\(는\)|과\(와\)|\(으\)로)/g, (m, ch, p) => { const b = bat(ch); const head = m.slice(0, m.length - p.length); if (p === '(으)로') return head + (b === 1 ? '으로' : '로'); return head + PAIRS[p][b ? 0 : 1]; });
-    s = s.replace(/([0-9])이에요/g, (m, ch) => ch + (bat(ch) ? '이에요' : '예요'));
+    s = s.replace(/([0-9가-힣])이에요/g, (m, ch) => ch + (bat(ch) ? '이에요' : '예요'));
     s = s.replace(/([0-9가-힣])\(으\)로/g, (m, ch) => { const b = bat(ch); if (b < 0) return m; return ch + (b === 1 ? '으로' : '로'); });
     const re = new RegExp('(' + WORDS.join('|') + ')(을|를|이|가|은|는)(?![가-힣])', 'g');
     s = s.replace(re, (m, w, p) => { const b = bat(w[w.length - 1]) ? 0 : 1; const map = { '을': ['을', '를'], '를': ['을', '를'], '이': ['이', '가'], '가': ['이', '가'], '은': ['은', '는'], '는': ['은', '는'] }; return w + map[p][b]; });
@@ -568,11 +568,12 @@
   const ORDER = ['1-1', '1-2', '2-1', '2-2', '3-1', '3-2', '4-1', '4-2', '5-1', '5-2', '6-1', '6-2'];
 
   // 하루 10문제: 오늘 단원 7 + 이전 단원 복습 3
+  // 복습: 단원 순서는 교과서마다 달라서, 이미 배운 것이 확실한 이전 학기(최대 두 학기 전)에서만 고른다
   function previousUnits(term, idx) {
     const list = []; const ti = ORDER.indexOf(term);
-    for (let t = ti; t >= Math.max(0, ti - 2); t--) {
+    for (let t = ti - 1; t >= Math.max(0, ti - 2); t--) {
       const units = CURRICULUM[ORDER[t]];
-      for (let i = (t === ti ? idx - 1 : units.length - 1); i >= 0; i--) if (units[i].gen) list.push({ term: ORDER[t], idx: i, u: units[i] });
+      for (let i = units.length - 1; i >= 0; i--) if (units[i].gen) list.push({ term: ORDER[t], idx: i, u: units[i] });
     }
     return list;
   }
@@ -581,14 +582,16 @@
     const r = makeR(seed);
     const unit = CURRICULUM[opt.term][opt.idx];
     const out = [], seen = new Set();
-    const add = (gen, lv, tag) => { for (let i = 0; i < 40; i++) { const p = G[gen](r, lv); const key = p.q + '|' + p.a; if (seen.has(key)) continue; seen.add(key); out.push(Object.assign(p, { tag, gen })); return; } };
+    const add = (gen, lv, tag) => { for (let i = 0; i < 60; i++) { const L = i < 40 ? lv : (lv % 3) + 1; const p = G[gen](r, L); const key = p.q + '|' + p.a; if (seen.has(key)) continue; seen.add(key); out.push(Object.assign(p, { tag, gen })); return; } const p = G[gen](r, lv); out.push(Object.assign(p, { tag, gen })); };
     for (let i = 0; i < 7; i++) add(unit.gen, opt.level, '');
     const prev = previousUnits(opt.term, opt.idx);
-    for (let i = 0; i < 3; i++) { const pu = prev.length ? prev[Math.min(prev.length - 1, Math.floor(r.f() * Math.min(prev.length, 4)))] : { term: opt.term, u: unit }; add(pu.u.gen, Math.max(1, opt.level - 1), `복습 · ${pu.term.replace('-', '학년 ')}학기 ${pu.u.name}`); }
+    for (let i = 0; i < 3; i++) { const pu = prev.length ? prev[Math.floor(r.f() * prev.length)] : { term: opt.term, u: unit }; add(pu.u.gen, Math.max(1, opt.level - 1), `복습 · ${pu.term.replace('-', '학년 ')}학기 ${pu.u.name}`); }
     // 문장제는 뒤로, 복습은 맨 뒤 3문제
     const main = out.slice(0, 7).sort((a, b) => a.word - b.word), rev = out.slice(7);
     return { seed: seed.toString(36).toUpperCase().slice(-4), unit, problems: main.concat(rev) };
   }
   const api = { CURRICULUM, ORDER, G, makeR, makeDaily, previousUnits, frac, dec, gcd, lcm, hashStr };
+  api.H = { P, B, F, frac, dec, gcd, lcm, fmt, nm, nmI, ITEMS, FOOD, seqProblem, fixJ };
+  if (root.installPictures) root.installPictures(api);
   if (typeof module !== 'undefined') module.exports = api; else root.WS = api;
 })(typeof window !== 'undefined' ? window : globalThis);

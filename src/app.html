@@ -66,19 +66,31 @@ footer a{color:var(--purple)}
 .sh-head{border-radius:5mm;padding:4mm 6mm;display:flex;align-items:center;gap:5mm;background:linear-gradient(90deg,var(--h1),var(--h2))}
 .sh-title{font-size:9.5mm;color:var(--hc);line-height:1}
 .sh-title small{display:block;font-size:4.2mm;margin-top:1.8mm;color:var(--hs)}
-.sh-date{margin-left:auto;text-align:right;font-size:4.2mm;color:var(--hs);line-height:1.5}
+.sh-date{margin-left:auto;text-align:right;font-size:4mm;color:var(--hs);line-height:1.9}
+.sh-date .ln{display:inline-block;border-bottom:.4mm solid var(--hs);width:30mm;height:4.5mm;vertical-align:bottom;opacity:.6}
+.sh-date .ln.s{width:10mm}
+.sh-head .stamp{background:#fff;border-color:var(--hs);color:var(--hs);flex:none}
 .sh-meta{display:flex;gap:5mm;align-items:center;margin:3.5mm 1mm 3mm;font-size:4.2mm;color:#6d6699}
 .sh-meta .ln{display:inline-block;border-bottom:.4mm solid #cfc8ea;min-width:38mm;height:5mm;vertical-align:bottom}
 .sh-meta .score{margin-left:auto}
 .stamp{width:17mm;height:17mm;border:.6mm dashed #f3a8c6;border-radius:50%;display:grid;place-items:center;font-size:3mm;color:#f3a8c6;text-align:center;line-height:1.25}
-.probs{flex:1;display:grid;grid-template-columns:1fr 1fr;grid-template-rows:repeat(5,1fr);gap:3mm 5mm}
-.pb{border:.35mm solid #ece7fb;border-radius:3.5mm;padding:3mm 3.5mm;display:flex;flex-direction:column;font-size:4.3mm;line-height:1.75;position:relative}
+.probs{margin-top:3.5mm;flex:1;min-height:0;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);grid-template-rows:repeat(5,minmax(0,1fr));gap:3mm 5mm}
+.pb{border:.35mm solid #ece7fb;border-radius:3.5mm;padding:2.6mm 3.5mm;display:flex;flex-direction:column;font-size:4.2mm;line-height:1.65;position:relative;min-height:0;overflow:hidden}
 .pb .no{display:inline-grid;place-items:center;width:7mm;height:7mm;border-radius:50%;background:var(--h2);color:var(--hc);font-size:4mm;margin-right:2mm;vertical-align:middle}
 .pb .tag{font-size:3mm;color:#b08bd6;background:#f5effd;border-radius:999px;padding:0 2.2mm;align-self:flex-start;margin-bottom:1mm;line-height:1.7}
 .pb .q{flex:none}
 .pb .ans{margin-top:auto;align-self:flex-end;font-size:3.8mm;color:#8d86b8}
 .pb .ans i{display:inline-block;width:30mm;border-bottom:.4mm solid #cfc8ea;margin-left:1.5mm}
 .seq{font-size:4.6mm;letter-spacing:.2mm}
+.pic{display:block;margin:1mm auto 0;max-height:24mm;height:auto;max-width:100%}
+.pb .art{flex:1;min-height:0;display:flex;align-items:center;justify-content:center;gap:3mm;margin-top:.5mm}
+.pb .art svg{height:100%!important;width:auto!important;max-width:100%;max-height:100%;margin:0}
+.pb .art .pics{height:100%;margin:0}
+.opt{display:block;font-size:3.2mm;color:#9a90c8;line-height:1.4}
+.ansf{float:right;margin:.3mm 0 .5mm 2mm;font-size:3.6mm;color:#8d86b8;line-height:1.5}
+.ansf i{display:inline-block;width:20mm;border-bottom:.4mm solid #cfc8ea;margin-left:1mm}
+.pics{display:flex;gap:3mm;align-items:center;justify-content:center;margin-top:1mm}
+.pics .pic{margin:0}
 .bx{display:inline-block;width:9mm;height:6.4mm;border:.45mm solid #9d91d6;border-radius:1.4mm;vertical-align:middle;margin:0 .6mm;background:#fff}
 .fr{display:inline-flex;flex-direction:column;align-items:center;vertical-align:middle;line-height:1.05;margin:0 .6mm;font-size:.9em}
 .fr i{font-style:normal;padding:0 .8mm}
@@ -107,7 +119,7 @@ footer a{color:var(--purple)}
 <div class="wrap">
  <header>
   <div class="logo"><div style="text-align:center"><b>10</b><span>하루</span></div></div>
-  <h1>베타아빠 데일리 학습지<small>초등 수학 하루 10문제 · 오늘 단원 7문제 + 복습 3문제 · A4 문제지와 정답지</small></h1>
+  <h1>베타아빠 데일리 학습지<small>초등 수학 하루 10문제 · 오늘 단원 7문제 + 복습 3문제 · 그림 문제 포함 · A4 문제지와 정답지</small></h1>
   <button class="help-btn" id="helpBtn">사용 방법</button>
  </header>
  <div class="grid">
@@ -118,7 +130,7 @@ footer a{color:var(--purple)}
    </div>
    <div class="card"><h2><span class="num">2</span>오늘 배운 단원</h2>
     <div class="units" id="units"></div>
-    <p class="hint">2022 개정 교육과정 기준이에요. 3~6학년은 교과서 출판사마다 단원 이름과 순서가 조금 다를 수 있으니 단원 이름으로 골라 주세요. 흐린 단원(도형·그래프)은 준비 중이에요.</p>
+    <p class="hint">2022 개정 교육과정 단원 이름이에요. 학교에서 배운 단원 이름을 찾아 눌러 주세요.</p>
    </div>
    <div class="card"><h2><span class="num">3</span>난이도와 날짜</h2>
     <div class="pills" id="levels"></div>
@@ -142,7 +154,7 @@ footer a{color:var(--purple)}
  <ol style="padding-left:22px;margin:6px 0 12px">
   <li><b>학년과 학기</b>를 고르고, 학교에서 <b>오늘 배운 단원</b>을 눌러요</li>
   <li><b>난이도</b>를 골라요 (기본 · 보통 · 도전)</li>
-  <li>앞 7문제는 오늘 단원, 뒤 3문제는 지난 단원 복습이에요</li>
+  <li>앞 7문제는 오늘 단원, 뒤 3문제는 지난 학기 단원 복습이에요</li>
   <li><b>프린트하기</b> → 용지 A4, 배율 100%(또는 기본)로 출력해요</li>
   <li>정답지는 뒤 장에 나와요. 한 줄 풀이로 틀린 이유를 함께 봐요</li>
  </ol>
@@ -171,7 +183,7 @@ function renderControls(){
  $('grades').innerHTML='';for(let g=1;g<=6;g++){const b=document.createElement('button');b.className='pill'+(g===st.grade?' on':'');b.textContent=g+'학년';b.onclick=()=>{st.grade=g;st.idx=firstSupported();st.variant=0;renderControls();update();};$('grades').append(b);}
  $('terms').innerHTML='';[1,2].forEach(t=>{const b=document.createElement('button');b.className='pill'+(t===st.term?' on':'');b.textContent=t+'학기';b.onclick=()=>{st.term=t;st.idx=firstSupported();st.variant=0;renderControls();update();};$('terms').append(b);});
  const units=WS.CURRICULUM[key()]; if(!units[st.idx]||!units[st.idx].gen) st.idx=firstSupported();
- $('units').innerHTML='';units.forEach((u,i)=>{const b=document.createElement('button');b.className='unit'+(i===st.idx?' on':'');b.disabled=!u.gen;b.innerHTML=`${i+1}. ${u.name}<small>${u.gen?u.area:'준비 중 (그림 문제)'}</small>`;b.onclick=()=>{st.idx=i;st.variant=0;renderControls();update();};$('units').append(b);});
+ $('units').innerHTML='';units.forEach((u,i)=>{const b=document.createElement('button');b.className='unit'+(i===st.idx?' on':'');b.disabled=!u.gen;b.innerHTML=`${u.name}<small>${u.area}</small>`;b.onclick=()=>{st.idx=i;st.variant=0;renderControls();update();};$('units').append(b);});
  $('levels').innerHTML='';LEVELS.forEach(([n,v])=>{const b=document.createElement('button');b.className='pill'+(v===st.level?' on':'');b.textContent=n;b.onclick=()=>{st.level=v;st.variant=0;renderControls();update();};$('levels').append(b);});
 }
 const DOW=['일','월','화','수','목','금','토'];
@@ -179,12 +191,12 @@ function dateLabel(v){const [y,m,d]=v.split('-').map(Number);const dt=new Date(y
 function sheetHTML(data,answers){
  const th=THEME[st.grade], u=data.unit, lv=LEVELS[st.level-1][0];
  const vars=`--h1:${th[0]};--h2:${th[1]};--hc:${th[2]};--hs:${th[3]}`;
- const head=`<div class="sh-head"><div class="sh-title">${answers?'정답과 풀이':'데일리 학습지'}<small>${st.grade}학년 ${st.term}학기 · ${st.idx+1}. ${u.name} · ${lv}</small></div><div class="sh-date">${dateLabel($('date').value)}<br>오늘 7문제 + 복습 3문제</div></div>`;
+ const head=`<div class="sh-head"><div class="sh-title">${answers?'정답과 풀이':'데일리 학습지'}<small>${st.grade}학년 ${st.term}학기 · ${u.name} · ${lv}</small></div><div class="sh-date">${dateLabel($('date').value)}${answers?'<br>오늘 7문제 + 복습 3문제':'<br>이름 <span class="ln"></span> &nbsp;맞은 개수 <span class="ln s"></span>/10'}</div>${answers?'':'<div class="stamp">참 잘했어요<br>도장</div>'}</div>`;
  const id=`${$('date').value}-${st.grade}${st.term}${String(st.idx+1).padStart(2,'0')}${st.level}-${data.seed}${st.variant?'-'+st.variant:''}`;
  const foot=`<div class="sh-foot"><span>학습지 번호 ${id}</span><span>베타아빠 데일리 학습지 · 가정·교육용 무료</span></div>`;
  if(!answers){
-  const meta=`<div class="sh-meta">이름 <span class="ln"></span> 맞은 개수 <span class="ln" style="min-width:16mm"></span> / 10 <span class="score"></span><div class="stamp">참 잘했어요<br>도장</div></div>`;
-  const probs=data.problems.map((p,i)=>`<div class="pb">${p.tag?`<span class="tag">${p.tag}</span>`:''}<div class="q"><span class="no">${i+1}</span>${p.q}</div>${p.word||!/class="bx"/.test(p.q)?'<div class="ans">답<i></i></div>':''}</div>`).join('');
+  const meta='';
+  const probs=data.problems.map((p,i)=>{ const m=p.q.match(/<span class="pics">[\s\S]*<\/span>|<svg class="pic"[\s\S]*<\/svg>/); const text=m?p.q.replace(m[0],''):p.q; const needAns=!/class="bx"/.test(text); return `<div class="pb">${p.tag?`<span class="tag">${p.tag}</span>`:''}<div class="q">${needAns&&m?'<span class="ansf">답<i></i></span>':''}<span class="no">${i+1}</span>${text}</div>${m?`<div class="art">${m[0]}</div>`:''}${needAns&&!m?'<div class="ans">답<i></i></div>':''}</div>`; }).join('');
   return `<div class="sheet" style="${vars}">${head}${meta}<div class="probs">${probs}</div>${foot}</div>`;
  }
  const rows=data.problems.map((p,i)=>`<div class="ar"><span class="no">${i+1}</span><div><b>${p.a}</b><span class="ex">${p.ex}</span>${p.tag?`<span class="qq">${p.tag}</span>`:''}</div></div>`).join('');
